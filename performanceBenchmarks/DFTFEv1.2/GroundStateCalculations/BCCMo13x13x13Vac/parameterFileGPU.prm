@@ -1,0 +1,63 @@
+set VERBOSITY = 1
+set USE GPU=true
+subsection GPU
+  set AUTO GPU BLOCK SIZES=false
+  set USE ELPA GPU KERNEL=true
+end
+
+subsection Boundary conditions
+  set PERIODIC1                       = true
+  set PERIODIC2                       = true
+  set PERIODIC3                       = true
+end
+
+
+subsection DFT functional parameters
+  set EXCHANGE CORRELATION TYPE = GGA-PBE
+  set PSEUDOPOTENTIAL CALCULATION = true
+  set PSEUDOPOTENTIAL FILE NAMES LIST = pseudo.inp
+end
+
+
+subsection Finite element mesh parameters
+  set POLYNOMIAL ORDER = 7
+  subsection Auto mesh generation parameters
+    set MESH SIZE AROUND ATOM=2.1
+    set ATOM BALL RADIUS=10.0
+  end
+end
+
+subsection Geometry
+  set NATOMS=4393
+  set NATOM TYPES=1
+  set ATOMIC COORDINATES FILE      = coordinates.inp
+  set DOMAIN VECTORS FILE = domainVectors.inp
+  subsection Optimization
+    set ION FORCE = true
+  end
+end
+
+
+subsection Poisson problem parameters
+  set MAXIMUM ITERATIONS = 10000
+  set TOLERANCE          = 1e-8
+  set GPU MODE=true
+end
+
+
+subsection SCF parameters
+  set MIXING PARAMETER =0.5
+  set MIXING METHOD= ANDERSON_WITH_KERKER
+  set KERKER MIXING PARAMETER=0.05
+  set MIXING HISTORY   = 10
+  set MAXIMUM ITERATIONS               = 100
+  set TEMPERATURE                      = 500
+  set TOLERANCE                        = 1e-4
+  subsection Eigen-solver parameters
+      set NUMBER OF KOHN-SHAM WAVEFUNCTIONS = 36600
+      set CHEBYSHEV POLYNOMIAL DEGREE=35
+      set CHEBYSHEV POLYNOMIAL DEGREE SCALING FACTOR FIRST SCF = 1.5
+      set CHEBY WFC BLOCK SIZE=244
+      set WFC BLOCK SIZE=732
+  end
+end
