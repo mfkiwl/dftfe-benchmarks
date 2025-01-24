@@ -1,0 +1,58 @@
+set VERBOSITY = 1
+set USE GPU=true
+set WRITE STRUCTURE ENERGY FORCES DATA POST PROCESS=true
+subsection GPU
+  set USE ELPA GPU KERNEL = true
+end
+
+subsection Boundary conditions
+  set PERIODIC1                       = false
+  set PERIODIC2                       = false
+  set PERIODIC3                       = false
+end
+
+subsection DFT functional parameters
+  set EXCHANGE CORRELATION TYPE   = GGA-PBE
+  set PSEUDOPOTENTIAL CALCULATION = true
+  set PSEUDOPOTENTIAL FILE NAMES LIST = pseudo.inp
+end
+
+subsection Finite element mesh parameters
+  set POLYNOMIAL ORDER=6
+  subsection Auto mesh generation parameters
+    set ATOM BALL RADIUS = 4.0
+    set MESH SIZE AROUND ATOM = 1.0
+   end
+end
+
+subsection Geometry
+  set NATOMS=1943
+  set NATOM TYPES=2
+  set ATOMIC COORDINATES FILE      = coordinates.inp
+  set DOMAIN VECTORS FILE = domainVectors.inp
+end
+
+subsection Poisson problem parameters
+  set MAXIMUM ITERATIONS = 10000
+  set TOLERANCE          = 1e-8
+  set GPU MODE=true
+end
+
+
+subsection SCF parameters
+  set MIXING PARAMETER =0.4
+  set MIXING METHOD= LOW_RANK_DIELECM_PRECOND
+  set TEMPERATURE                      = 500
+  set TOLERANCE                        = 1e-4
+  set MAXIMUM ITERATIONS               = 100
+  subsection LOW RANK DIELECM PRECOND
+    set ADAPTIVE RANK REL TOL                = 0.3
+    set STARTING NORM LARGE DAMPING          = 1.0
+    set USE SINGLE PREC DENSITY RESPONSE=false
+    set METHOD SUB TYPE=ACCUMULATED_ADAPTIVE
+  end
+  subsection Eigen-solver parameters
+    set CHEBYSHEV FILTER TOLERANCE                           = 5e-03
+    set REUSE LANCZOS UPPER BOUND=true
+  end
+end
